@@ -1,0 +1,14 @@
+{
+  "mqtt":  {
+    "client_id": "mir-kotelno-boiler",
+    "server": "192.168.69.2",
+    "port": 31883,
+    "user": "sysmo",
+    "password": "sysmopass",
+    "prefix":  "mir20/kotelno/boiler/"    
+  },
+  "networks": {
+    "SysMo-2.4":  "rokobaroko",
+    "nasko-deco": "rokobaroko"
+  }
+}
