@@ -1,7 +1,7 @@
 import json
 import time
 from smbed.services import Services
-from smbed.daq import OneWireCommunicator
+from smbed.sensors import SensorManager
 
 with open('config.json') as f:
     config = json.load(f)
@@ -9,7 +9,8 @@ with open('config.json') as f:
 services = Services(config)
 services.start()
 
-one_wire = OneWireCommunicator(4)
+sensor_manager = SensorManager.from_config(config["sensors"])
+one_wire = sensor_manager.sensor_communicators["temperature"]
 
 while True:
     one_wire.read()

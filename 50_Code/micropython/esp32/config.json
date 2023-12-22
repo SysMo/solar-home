@@ -1,4 +1,8 @@
 {
+  "networks": {
+    "SysMo-2.4":  "rokobaroko",
+    "nasko-deco": "rokobaroko"
+  },
   "mqtt":  {
     "client_id": "mir-kotelno-boiler",
     "server": "192.168.69.2",
@@ -7,8 +11,12 @@
     "password": "sysmopass",
     "prefix":  "mir20/kotelno/boiler/"    
   },
-  "networks": {
-    "SysMo-2.4":  "rokobaroko",
-    "nasko-deco": "rokobaroko"
+  "sensors": {
+    "temperature": {
+      "OneWire": {
+        "type": "ds18b20",
+        "pin": 4
+      }
+    }
   }
 }
