@@ -25,7 +25,7 @@ class Runtime:
         self.dispatcher = Dispatcher()
         self.network = WiFiService(config["networks"])
         self.mqtt = MqttService.from_config(config["mqtt"]) 
-        self.sensor_manager = SensorManager.from_config(config["sensors"])
+        self.sensor_manager = SensorManager.from_config(config["sensors"], dispatcher = self.dispatcher)
 
     @staticmethod
     def from_config_file(path: str):
