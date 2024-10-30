@@ -27,7 +27,8 @@ class Runtime:
         self.tick_interval = 2000
         self.dispatcher = Dispatcher()
         self.network = WiFiService(config["networks"])
-        self.mqtt = MqttService.from_config(config["mqtt"]) 
+        self.mqtt = MqttService.from_config(config["mqtt"])
+        self.logger = logging.getLogger('Runtime')
         # self.sensor_manager = SensorManager.from_config(config["sensors"], dispatcher = self.dispatcher)
 
     @staticmethod
@@ -39,18 +40,19 @@ class Runtime:
 
     async def on_start(self):
         self.network.start()
-        # self.mqtt.start()
+        self.mqtt.start()
         self.initialized = True
 
     async def on_tick(self):
-        logging.info('Tick')
+        self.logger.info('Tick')
+        self.mqtt.send_sensor_value("sensor1", 23.5)
     #     await self.sensor_manager.acquire_data()
     #     await self.dispatcher.process_queue()
 
     async def main(self):
         await self.on_start()
         while True:
-            # await self.on_tick()
+            await self.on_tick()
             await asyncio.sleep_ms(self.tick_interval)
 
 

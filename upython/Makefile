@@ -31,9 +31,14 @@ upython/clean:
 	mpremote fs run tools/cleanup.py
 
 upython/upload:
-	mpremote fs cp -rf smbed :smbed
+	mpremote fs cp -rf smbed :/
+	mpremote fs cp -rf tools :/
 	mpremote fs cp main.py :/
 	mpremote fs cp config.json :/
+	mpremote fs cp /data/Workspace/Hynergy/hyboard/cert/out/ca/ca-sysmo.crt :/cert/ca.crt
+	mpremote fs cp /data/Workspace/Hynergy/hyboard/cert/out/client/sysmo.crt :/cert/sysmo.crt
+	mpremote fs cp /data/Workspace/Hynergy/hyboard/cert/out/client/sysmo.key :/cert/sysmo.key
+
 	mpremote reset
 	mpremote repl
 

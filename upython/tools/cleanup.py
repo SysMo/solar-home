@@ -38,4 +38,4 @@ def cleanup(base: str = ".") -> None:
 
 
 if __name__ == "__main__":
-    cleanup("smbed")
+    cleanup("/smbed")
