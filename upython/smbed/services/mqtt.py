@@ -3,6 +3,7 @@ import json
 import time
 import ssl
 import logging
+from ..protocols.modbus import RegisterSnapshot
 
 class MqttService:
     prefix: str
@@ -38,6 +39,13 @@ class MqttService:
         self.client.connect()
         self.logger.info("Connected to MQTT broker ...")
 
+    def send_register_snapshot(self, register_snapshot: RegisterSnapshot):
+        # topic = (self.prefix + sensor_id).encode()
+        topic = self.prefix
+        payload = register_snapshot.serialize()
+        msg = json.dumps(payload).encode()
+        self.client.publish(topic, msg)
+    
     def send_sensor_value(self, sensor_id: str, value: float):
         topic = (self.prefix + sensor_id).encode()
         payload = {'timestamp': int(time.time()) + 946677600 + 2 * 3600, 'value': value}

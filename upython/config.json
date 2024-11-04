@@ -9,6 +9,12 @@
     "port": 31883,
     "prefix":  "mir20/kotelno/boiler/"    
   },
+  "modbus": {
+    "rx": 5,
+    "tx": 4,
+    "baudrate": 9600,
+    "slave_id": 2
+  },
   "sensors": {
     "temperature": {
       "OneWire": {

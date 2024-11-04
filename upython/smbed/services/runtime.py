@@ -4,10 +4,14 @@ import asyncio
 import time
 import sys
 import logging
+import gc
 
 from .mqtt import MqttService
 from .wifi import WiFiService
 from .dispatcher import Dispatcher
+from ..hardware import LedIndicator
+from .modbus import ModbusClientService
+from ..data.register_maps.dts777 import DTS777
 # from ..sensors import SensorManager
 
 # class RuntimeState:
@@ -23,13 +27,19 @@ class Runtime:
 
     def __init__(self, config):
         logging.info("Starting Morse runtime")
-        # self.state = RuntimeState.Initilizing
         self.tick_interval = 2000
+        self.logger = logging.getLogger('Runtime')
+
+        # self.state = RuntimeState.Initilizing
+        self.indicator_led = LedIndicator(10)
+        self.indicator_led.on()
+
         self.dispatcher = Dispatcher()
         self.network = WiFiService(config["networks"])
         self.mqtt = MqttService.from_config(config["mqtt"])
-        self.logger = logging.getLogger('Runtime')
         # self.sensor_manager = SensorManager.from_config(config["sensors"], dispatcher = self.dispatcher)
+        self.modbus = ModbusClientService(config["modbus"])
+
 
     @staticmethod
     def from_config_file(path: str):
@@ -44,8 +54,11 @@ class Runtime:
         self.initialized = True
 
     async def on_tick(self):
-        self.logger.info('Tick')
-        self.mqtt.send_sensor_value("sensor1", 23.5)
+        self.logger.info(f'Ram: allocated: {gc.mem_alloc() / 1000 } kB, free {gc.mem_free() / 1000} kB')
+        self.indicator_led.toggle()
+        # self.mqtt.send_sensor_value("sensor1", 23.5)
+        register_snapshot = self.modbus.read_register_snapshot(DTS777.register_map())
+        self.mqtt.send_register_snapshot(register_snapshot)
     #     await self.sensor_manager.acquire_data()
     #     await self.dispatcher.process_queue()
 

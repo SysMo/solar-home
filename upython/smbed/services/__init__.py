@@ -1,4 +1,9 @@
+from .wifi import WiFiService
 from .runtime import Runtime
 from .dispatcher import Event, Dispatcher
 from .mqtt import MqttService
-from .wifi import WiFiService
+
+# try:
+# except ImportError as e:
+#   print("Failed to import service packages:")
+#   print(e)

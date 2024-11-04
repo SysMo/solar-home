@@ -2,7 +2,25 @@ import network
 import ntptime
 import utime
 import machine
-import logging
+try:
+    import logging
+except:
+    class Logger:
+        def __init__(self, name: str):
+            self.name = name
+        def info(self, msg: str):
+            print(msg)
+        def warn(self, msg: str):
+            print(msg)
+        def debug(self, msg: str):
+            print(msg)
+        def error(self, msg: str):
+            print(msg)
+    class logging:
+        @staticmethod
+        def getLogger(name: str):
+            return Logger(name)
+
 
 class WiFiService:
     def __init__(self, networks):
