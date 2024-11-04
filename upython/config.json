@@ -3,6 +3,7 @@
     "SysMo-2.4":  "rokobaroko",
     "nasko-deco": "rokobaroko"
   },
+  "tick_interval": 2000,
   "mqtt":  {
     "client_id": "solar-home-1",
     "server": "mqtt.hy2b.sysmoltd.com",
